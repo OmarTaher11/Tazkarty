@@ -10,10 +10,9 @@ export default function SignIn(props) {
           height="55%"
           layout="responsive"></Image>
     <form >
-      <h1 className="d-block my-2">Please sign in</h1>
-      <label for="inputEmail" className="d-block my-2">Email address</label>
-      <input type="email"  className="d-block my-2 w-100" placeholder="Email address" required autofocus/>
-      <label for="inputPassword" className="visually-hidden d-block my-2">Password</label>
+      <label htmlFor="inputEmail" className="d-block my-2 font-weight-bold">Email address</label>
+      <input type="email"  className="d-block my-2 w-100" placeholder="Email address" required />
+      <label htmlFor="inputPassword" className="visually-hidden d-block my-2 font-weight-bold">Password</label>
       <input type="password"  className="d-block my-2 w-100" placeholder="Password" required/>
       <button className="w-100 btn btn-lg btn-primary my-2" type="submit">Sign in</button>
     </form>
