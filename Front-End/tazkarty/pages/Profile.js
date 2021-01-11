@@ -1,16 +1,40 @@
 import Image from "next/image";
-export default function SignIn(props) {
+export default function Profile() {
   return (
-    <div className="container m-auto w-25 py-5">
-      <Image
-        className="img-fluid"
-        src="/EPLogo.jpeg"
-        alt=""
-        width="100%"
-        height="55%"
-        layout="responsive"
-      ></Image>
-      <form>
+    
+    <div className="container my-5">
+    
+    {/*  ROW 1 */}
+
+      <div className="row">
+        <div className="col-4">
+          {" "}
+          <div className="container w-50 p-3">
+          <Image
+            className="img-fluid"
+            src="/ball.jpg"
+            alt="y u  like zis"
+            width="5%"
+            height="5%"
+            layout="responsive"
+          ></Image>
+          </div>
+        </div>
+
+        <div className="col-8 my-auto"><h1 className = "font-weight-bold">Profile Info</h1></div>
+      </div>
+
+    {/* Row 2 */}
+
+      <div className="row">
+        <div className="col-4">
+          {" "}
+          <div className="container w-50 p-3">
+            <h4 className = "font-weight-bold">John Wick</h4>
+          </div>
+        </div>
+
+        <div className="col-8"><form>
         {/* Username */}
 
         <label htmlFor="Username" className="d-block my-2 font-weight-bold">
@@ -78,13 +102,13 @@ export default function SignIn(props) {
         <label className="visually-hidden d-block my-2 font-weight-bold">
           Gender
         </label>
-        <div class="radio d-inline">
+        <div className="radio d-inline">
           <label>
             <input type="radio" name="optradio"  />
             Male
           </label>
         </div>
-        <div class="radio d-inline">
+        <div className="radio d-inline">
           <label>
             <input type="radio" name="optradio" />
             Female
@@ -93,7 +117,7 @@ export default function SignIn(props) {
 
         {/*  City */}
 
-        <label htmlFor="City" className="d-block my-2 font-weight-bold">
+        <label htmlFor="City" className ="d-block my-2 font-weight-bold">
           City
         </label>
         <input
@@ -129,9 +153,11 @@ export default function SignIn(props) {
         {/* Sign Up */}
 
         <button className="w-100 btn btn-lg btn-primary my-2" type="submit">
-          Sign up
+          Update Information
         </button>
       </form>
+</div>
+      </div>
     </div>
   );
 }
