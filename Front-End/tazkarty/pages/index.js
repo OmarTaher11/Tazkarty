@@ -14,7 +14,7 @@ export default function Home({ data }) {
     <>
       <NavBar></NavBar>
       <div>
-        <Image
+      <Image
           className="img-fluid"
           src="/StadiumHD.jpg"
           alt=""
