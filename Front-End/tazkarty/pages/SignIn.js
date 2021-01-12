@@ -1,21 +1,110 @@
+import React, { useState } from "react";
 import Image from "next/image";
+import NavBar from "../components/NavBar";
+import { useRouter } from 'next/router';
+
 export default function SignIn(props) {
-    return (
-    <div className = "container m-auto w-25 py-5">
-    <Image           
+  const router = useRouter();
+  var SignInUrl = "";
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const emailRegex = /\S+@\S+\.\S+/;
+  const reg = /^\S+$/;
+  var validateForm = () => {
+    if (!email) {
+      alert("Please enter a valid email");
+      return;
+    }
+    if (!email.match(emailRegex)) {
+      alert("Please enter a valid email");
+      return;
+    }
+    if (!password) {
+      alert("Please enter your password");
+      return;
+    }
+
+    if (!reg.test(password)) {
+      alert("Please enter a password that doesn't have a space");
+      return;
+    }
+    // alert("Validation Complete");
+    router.push('/', undefined, { shallow: true });
+
+    // requestSignIn();
+  };
+  var requestSignIn = () => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({  email,  password }),
+    };
+    fetch(SignInUrl, requestOptions)
+      .then((response) => response.json())
+      .then((response) => {
+        if (response.approved == "accepted") {
+
+          /* TODO: 
+          1. Save user data into local storage
+          // if (typeof window !== "undefined") {
+          //   localStorage.setItem("myCat", "Tom");
+          // }
+          2. Rout to the homepage
+
+          */
+        }
+      });
+  };
+
+  return (
+    <>
+      <NavBar></NavBar>
+      <div className="container m-auto w-25 py-5">
+        <Image
           className="img-fluid"
           src="/EPLogo.jpeg"
           alt=""
           width="100%"
           height="55%"
-          layout="responsive"></Image>
-    <form >
-      <label htmlFor="inputEmail" className="d-block my-2 font-weight-bold">Email address</label>
-      <input type="email"  className="d-block my-2 w-100" placeholder="Email address" required />
-      <label htmlFor="inputPassword" className="visually-hidden d-block my-2 font-weight-bold">Password</label>
-      <input type="password"  className="d-block my-2 w-100" placeholder="Password" required/>
-      <button className="w-100 btn btn-lg btn-primary my-2" type="submit">Sign in</button>
-    </form>
-    </div>
-  )
+          layout="responsive"
+        ></Image>
+        <form>
+          <label htmlFor="inputEmail" className="d-block my-2 font-weight-bold">
+            Email address
+          </label>
+          <input
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            type="email"
+            className="d-block my-2 w-100"
+            placeholder="Email address"
+            required
+          />
+          <label
+            htmlFor="inputPassword"
+            className="visually-hidden d-block my-2 font-weight-bold"
+          >
+            Password
+          </label>
+          <input
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            type="password"
+            className="d-block my-2 w-100"
+            placeholder="Password"
+            required
+          />
+          <button
+            type = "button"
+            className="w-100 btn btn-lg btn-primary my-2"
+            onClick={() =>validateForm()}
+          >
+            Sign in
+          </button>
+        </form>
+      </div>
+    </>
+  );
 }

@@ -6,7 +6,10 @@ html, body {
   margin: 0px;
   padding: 0px;
   background-color: #fdffbc;
+  font-family: 'Monda', sans-serif;
+  font-family: 'Ubuntu', sans-serif;
   }
+
 
 a {
   color: inherit;
