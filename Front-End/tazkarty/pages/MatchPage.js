@@ -1,19 +1,22 @@
 import Image from "next/image";
+import NavBar from "../components/NavBar"
 export default function MatchPage({data}) {
     var someData = {data} 
     var myData = someData.data.matches[0]
 
     console.log(myData)
     return (
+    <> 
+    <NavBar></NavBar>
+    <Image
+          className="img-fluid"
+          src="/StadiumHD.jpg"
+          alt=""
+          width="100%"
+          height="35%"
+          layout="responsive"
+        />
     <div className="container my-5">
-      <Image
-        className="img-fluid"
-        src="/StadiumHD.jpg"
-        alt=""
-        width="100%"
-        height="35%"
-        layout="responsive"
-      />
     <h5 className="card-title  text-center">{myData.HomeTeam + " vs "+ myData.AwayTeam} </h5>
     <p className="card-text text-center">{myData.MatchVenue}</p>
     <p className="card-text text-center">{myData.Date}</p>
@@ -22,6 +25,7 @@ export default function MatchPage({data}) {
     <p className="card-text text-center">{myData.Linesman1}</p>
     <p className="card-text text-center">{myData.Linesman2}</p>
     </div>
+    </>
   );
 }
 
