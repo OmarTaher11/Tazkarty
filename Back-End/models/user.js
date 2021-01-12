@@ -86,22 +86,23 @@ userSchema.methods.genAuthToken = async function(){
 
 userSchema.methods.toJSON = function () {
     const user = this.toObject()
-    delete user.password
+    delete user.Password
     delete user.tokens
     return user
 }
 userSchema.statics.findByCredentials = async (email, password) => {
-    
-    const user = await User.findOne({
-        email,
-    })
-
+    console.log(email)
+    const user = await User.findOne({Email : email})
+    console.log('user')
+    console.log(user)
     if(!user){
+        console.log('mafesh email')
         throw new Error("unable to login")
     }
 
-    const isMatch = await bcrypt.compare(password,user.password)
+    const isMatch = await bcrypt.compare(password,user.Password)
     if(!isMatch){
+        console.log('el hash mesh zabet')
         throw new Error("unable to login")
     }
     return user
@@ -110,8 +111,8 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
 userSchema.pre('save', async function (next) {
     const user = this
-    if(this.isModified('password')){
-        user.password = await bcrypt.hash(user.password,8)
+    if(this.isModified('Password')){
+        user.Password = await bcrypt.hash(user.Password,8)
 
     }
     next()
