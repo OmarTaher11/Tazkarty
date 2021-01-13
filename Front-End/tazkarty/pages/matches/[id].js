@@ -1,11 +1,39 @@
-import NavBar from '../../components/NavBar'
 import Image from 'next/image'
+import { useState } from "react";
+
 export default function Match(props) {
     var myData = props.data;
-    console.log(props)
+    
+    //Uncomment this block when the API to getMatchInfo is ready to update seats
+
+    // useEffect(() => {
+    //     const interval = setInterval(() => {
+    //       console.log('This will run every second!');
+    //     }, 1000);
+    //     return () => clearInterval(interval);
+    //   }, []);
+
+
+
+
+
+
+
+    var reserveTicket = () =>
+    {
+            const requestOptions = {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({  email,  password }),
+            };
+            fetch(SignInUrl, requestOptions)
+              .then((response) => response.json())
+          
+    }
     return (
     <> 
-    <NavBar></NavBar>
     <Image
           className="img-fluid"
           src="/StadiumHD.jpg"
@@ -25,15 +53,19 @@ export default function Match(props) {
     <h3>Seats</h3>
     {myData.seats.map(seat=>{
         if (seat.available == "y"){
-            //TODO add blue button
-            console.log("y u like zis")
             return(<button type="button" class="btn btn-primary">{seat.row + seat.index}</button>)
         }
         else {
-            console.log("y u like zis..yyy")
             return(<button type="button" class="btn btn-danger disabled">{seat.row + seat.index}</button>)
         }
     })}
+            <button
+            type = "button"
+            className="w-100 btn btn-lg btn-primary my-2"
+            onClick={() =>reserveTicket()}
+          >
+            Reserve Ticket
+          </button>
     </div>
     </>)
 }

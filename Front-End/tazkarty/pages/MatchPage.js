@@ -1,5 +1,4 @@
 import Image from "next/image";
-import NavBar from "../components/NavBar"
 export default function MatchPage({data}) {
     var someData = {data} 
     var myData = someData.data.matches[0]
@@ -7,7 +6,6 @@ export default function MatchPage({data}) {
     console.log(myData)
     return (
     <> 
-    <NavBar></NavBar>
     <Image
           className="img-fluid"
           src="/StadiumHD.jpg"

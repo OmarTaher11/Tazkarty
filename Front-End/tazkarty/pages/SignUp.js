@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import NavBar from "../components/NavBar";
 
 export default function SignUp(props) {
   const [username, setUsername] = useState("");
@@ -107,7 +106,6 @@ export default function SignUp(props) {
 
   return (
     <>
-      <NavBar></NavBar>
       <div className="container m-auto w-25 py-5">
         <Image
           className="img-fluid"
