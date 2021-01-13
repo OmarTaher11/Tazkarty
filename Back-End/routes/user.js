@@ -84,7 +84,7 @@ router.post('/user/fan/signin', async (req, res) => {
     }
 })
 //------------------------------Edit User Data
-router.post('/user/fan/editinfo', auth, async (req, res) => {
+router.post('/user/fan/editinfo', async (req, res) => {
     try {
         err = await validateFanUser_editInfo(req.body)
         if (err) {
@@ -92,27 +92,23 @@ router.post('/user/fan/editinfo', auth, async (req, res) => {
             console.log(err)
             throw Error(err)
         }
-        console.log('wtf I did it')
-        const user = await User.findByCredentials(req.body.Email, req.body.Password)
-        if (user.email !== req.user.email) {
-            return res.status(400).send('not available operation')
-        }
-        req.user.Password = req.body.newPassword == null ? req.user.Password : req.body.newPassword
-        req.user.First_name = req.body.First_name == null ? req.user.First_name : req.body.First_name
-        req.user.Last_name = req.body.Last_name == null ? req.user.Last_name : req.body.Last_name
-        req.user.Birth_date = req.body.Birth_date == null ? req.user.Birth_date : req.body.Birth_date
-        req.user.City = req.body.City == null ? req.user.City : req.body.City
-        req.user.Address = req.body.Address == null ? req.user.Address : req.body.Address
-        req.user.Gender = req.body.Gender == null ? req.user.Gender : req.body.Gender
+        user = await User.findOne({ _id: req.body._id})
+        user.Password = req.body.newPassword == null ? user.Password : req.body.newPassword
+        user.First_name = req.body.First_name == null ? user.First_name : req.body.First_name
+        user.Last_name = req.body.Last_name == null ? user.Last_name : req.body.Last_name
+        user.Birth_date = req.body.Birth_date == null ? user.Birth_date : req.body.Birth_date
+        user.City = req.body.City == null ? user.City : req.body.City
+        user.Address = req.body.Address == null ? user.Address : req.body.Address
+        user.Gender = req.body.Gender == null ? user.Gender : req.body.Gender
 
-        await req.user.save()
-        res.send(req.user.toJSON())
+        await user.save()
+        res.send(user.toJSON())
     } catch (e) {
         res.status(400).send({ Error: e.message })
     }
 })
 //-----------------------------get user--------
-router.get("/user/fan/me", auth, async (req, res) => {
+router.get("/user/fan/me",auth, async (req, res) => {
     console.log("========================USER=============================")
     console.log(req.user)
     await req.user.populate('Tickets.Ticket').execPopulate()
