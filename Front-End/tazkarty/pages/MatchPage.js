@@ -1,5 +1,4 @@
 import Image from "next/image";
-import NavBar from "../components/NavBar"
 export default function MatchPage({data}) {
     var someData = {data} 
     var myData = someData.data.matches[0]

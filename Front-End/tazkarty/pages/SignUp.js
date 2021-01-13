@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import NavBar from "../components/NavBar";
 
 export default function SignUp(props) {
   const [username, setUsername] = useState("");

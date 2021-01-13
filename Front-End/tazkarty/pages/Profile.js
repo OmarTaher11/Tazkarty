@@ -1,5 +1,33 @@
 import Image from "next/image";
 export default function Profile() {
+  
+  
+  var managerRequest = () => 
+  {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({  email,  password }),
+    };
+    fetch(SignInUrl, requestOptions)
+      .then((response) => response.json())
+  }
+  
+  var adminRequest = () => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({  email,  password }),
+    };
+    fetch(SignInUrl, requestOptions)
+      .then((response) => response.json())
+  }
+  
+  
   return (
     
     <div className="container my-5">
@@ -13,7 +41,7 @@ export default function Profile() {
           <Image
             className="img-fluid"
             src="/ball.jpg"
-            alt="y u  like zis"
+            alt="ball"
             width="5%"
             height="5%"
             layout="responsive"

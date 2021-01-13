@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Image from "next/image";
-import NavBar from "../components/NavBar";
 import { useRouter } from 'next/router';
 
 export default function SignIn(props) {

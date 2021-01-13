@@ -20,8 +20,6 @@ export default function NavBar() {
       }
     }
   };
-  console.log("user is ")
-  console.log(user)
   return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark d-flex ">
