@@ -1,7 +1,30 @@
 import Image from "next/image";
+import {useEffect, useState} from "react"
+import {link} from "../link"
 export default function Profile() {
   
-  
+  const [username, setUsername] = useState("");
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [gender, setGender] = useState("");
+  const [city, setCity] = useState("");
+  const [address, setAddress] = useState("");
+  const [birthDate, setBirthDate] = useState("");
+  useEffect( () => {
+  if (typeof window !== "undefined") {
+    setUsername(localStorage.getItem("Username"));
+    setEmail(localStorage.getItem("Email"))
+    setFirstName(localStorage.getItem("First_name"))
+    setLastName(localStorage.getItem("Last_name"))
+    setAddress(localStorage.getItem("Address"))
+    setCity(localStorage.getItem("City"))
+    setBirthDate(localStorage.getItem("Birth_date"))
+    setGender(localStorage.getItem("Gender"))
+    setPassword(localStorage.getItem("Password"))
+  }
+}, []);
   var managerRequest = () => 
   {
     const requestOptions = {
@@ -9,7 +32,7 @@ export default function Profile() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({  email,  password }),
+      body: JSON.stringify({ "Email":email,  "Password": password }),
     };
     fetch(SignInUrl, requestOptions)
       .then((response) => response.json())
@@ -21,11 +44,24 @@ export default function Profile() {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({  email,  password }),
+      body: JSON.stringify({ "Email":email,  "Password": password }),
     };
     fetch(SignInUrl, requestOptions)
       .then((response) => response.json())
   }
+
+  var updateInfoRequest = () => {
+    const requestOptions = {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ "Email":email,  "Password": password }),
+    };
+    fetch(SignInUrl, requestOptions)
+      .then((response) => response.json())
+  }
+  
   
   
   return (
@@ -76,6 +112,8 @@ export default function Profile() {
           Username
         </label>
         <input
+          value = {username}
+          onChange = {(e) => setUsername(e.target.value)}
           type="text"
           className="d-block my-2 w-100"
           placeholder="Username"
@@ -88,6 +126,8 @@ export default function Profile() {
           First Name
         </label>
         <input
+          value = {firstName}
+          onChange = {(e) => setfirstName(e.target.value)}
           type="text"
           className="d-block my-2 w-100"
           placeholder="First Name"
@@ -100,6 +140,8 @@ export default function Profile() {
           Last Name
         </label>
         <input
+          value = {lastName}
+          onChange = {(e) => setLastName(e.target.value)}
           type="text"
           className="d-block my-2 w-100"
           placeholder="Last Name"
@@ -112,6 +154,8 @@ export default function Profile() {
           Email address
         </label>
         <input
+          value = {email}
+          onChange = {(e) => setEmail(e.target.value)}
           type="email"
           className="d-block my-2 w-100"
           placeholder="Email address"
@@ -127,6 +171,8 @@ export default function Profile() {
           Password
         </label>
         <input
+          value = {password}
+          onChange = {(e) => setPassword(e.target.value)}
           type="password"
           className="d-block my-2 w-100"
           placeholder="Password"
@@ -156,6 +202,8 @@ export default function Profile() {
           City
         </label>
         <input
+          value = {city}
+          onChange = {(e) => setCity(e.target.value)}
           type="text"
           className="d-block my-2 w-100"
           placeholder="City"
@@ -168,6 +216,8 @@ export default function Profile() {
           Address
         </label>
         <input
+          value = {address}
+          onChange = {(e) => setAddress(e.target.value)}
           type="text"
           className="d-block my-2 w-100"
           placeholder="Address"
@@ -179,6 +229,8 @@ export default function Profile() {
           Date of Birth
         </label>
         <input
+          value = {birthDate}
+          onChange = {(e) => setBirthDate(e.target.value)}
           id = "Date"
           type="date"
           className="d-block my-2 w-100"

@@ -1,10 +1,10 @@
 import React, { useState } from "react";
 import Image from "next/image";
 import { useRouter } from 'next/router';
-
+import {link} from '../link.js'
 export default function SignIn(props) {
   const router = useRouter();
-  var SignInUrl = "";
+  var signInUrl = link + '/user/fan/signin';
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const emailRegex = /\S+@\S+\.\S+/;
@@ -30,7 +30,7 @@ export default function SignIn(props) {
     // alert("Validation Complete");
     
 
-    // requestSignIn();
+     requestSignIn();
   };
   var requestSignIn = () => {
     const requestOptions = {
@@ -38,22 +38,16 @@ export default function SignIn(props) {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({  email,  password }),
+      body: JSON.stringify({  Email:email,   Password:password }),
     };
-    fetch(SignInUrl, requestOptions)
+    fetch(signInUrl, requestOptions)
       .then((response) => response.json())
       .then((response) => {
-        if (response.approved == "accepted") {
-
-          /* TODO: 
-          1. Save user data into local storage
-          // if (typeof window !== "undefined") {
-          //   localStorage.setItem("myCat", "Tom");
-          // }
-          2. Rout to the homepage
-            router.push('/', undefined, { shallow: true });
-          */
+        if (typeof window !== "undefined") {
+          localStorage.setItem("_id", response.userId);
         }
+        console.log(response)
+        router.push('/', undefined, { shallow: true });
       });
   };
 

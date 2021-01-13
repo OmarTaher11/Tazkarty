@@ -5,7 +5,7 @@ export default function NavBar() {
   const [signedIn, setSignedIn] = useState(false)
   useEffect(()=> {
     if (typeof window !== "undefined") {
-      if (localStorage.getItem("user") !== null) 
+      if (localStorage.getItem("_id") !== null) 
       {
         setSignedIn(true);
       }
@@ -14,8 +14,8 @@ export default function NavBar() {
 
   var signOut = () => {
     if (typeof window !== "undefined") {
-      if (localStorage.getItem("user") !== null) {
-        localStorage.removeItem("user");
+      if (localStorage.getItem("_id") !== null) {
+        localStorage.clear();
         setSignedIn(false);
       }
     }
