@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Image from "next/image";
+import {link} from "../link"
 
 export default function SignUp(props) {
   const [username, setUsername] = useState("");
@@ -11,7 +12,9 @@ export default function SignUp(props) {
   const [city, setCity] = useState("");
   const [address, setAddress] = useState("");
   const [birthDate, setBirthDate] = useState("");
-
+  const SignUpUrl = link;
+  const ext = "/user/fan/signup"
+  const url = SignUpUrl + ext
   const validateForm = () => {
     const namesRegex = /^[A-Za-z]+$/;
     const numberRegex = /^[0-9]+$/;
@@ -50,57 +53,50 @@ export default function SignUp(props) {
       return;
     }
     alert("Validation complete")
-    //requestSignUp();
+    requestSignUp();
   };
   var requestSignUp = () => {
-    var reqBody;
-    if (address !== "")
-    {
-      reqBody = JSON.stringify({  
-        username, 
-        firstName, 
-        lastName, 
-        email, 
-        password, 
-        gender, 
-        city, 
-        birthDate, 
-        address 
-      });
-    }
-    else {
-      reqBody = JSON.stringify({  
-        username, 
-        firstName, 
-        lastName, 
-        email, 
-        password, 
-        gender, 
-        city, 
-        birthDate, 
-      });
-    }
+    var reqBody = JSON.stringify({  
+      Username:username, 
+      First_name:firstName, 
+      Last_name: lastName, 
+      Birth_date: birthDate, 
+      City: city,
+      Email: email,
+      Password:password, 
+      Gender: gender,  
+      Address: address? address : ""
+    });
+    
+    console.log(reqBody)
+    console.log(requestOptions)
     const requestOptions = {
       method: "POST",
+      mode: 'cors',
       headers: {
         "Content-Type": "application/json",
+        
       },
       body: reqBody,
     };
-    fetch(SignInUrl, requestOptions)
+    fetch(url, requestOptions)
       .then((response) => response.json())
       .then((response) => {
-        if (response.approved == "accepted") {
 
           /* TODO: 
           1. Save user data into local storage
-          // if (typeof window !== "undefined") {
-          //   localStorage.setItem("myCat", "Tom");
-          // }
+          */
+          if (typeof window !== "undefined") {
+            localStorage.setItem("_id", response._id);
+          }  
+          router.push('/', undefined, { shallow: true });
+          // console.log(response)
+          
+          /*
           2. Rout to the homepage
             router.push('/', undefined, { shallow: true });
           */
-        }
+        
       });
   };
 
@@ -193,7 +189,7 @@ export default function SignUp(props) {
           <label className="visually-hidden d-block my-2 font-weight-bold">
             Gender
           </label>
-          <div class="radio d-inline">
+          <div className="radio d-inline">
             <label>
               <input
                 value={gender}
@@ -204,7 +200,7 @@ export default function SignUp(props) {
               Male
             </label>
           </div>
-          <div class="radio d-inline">
+          <div className="radio d-inline">
             <label>
               <input
                 value={gender}
@@ -266,3 +262,5 @@ export default function SignUp(props) {
     </>
   );
 }
+
+

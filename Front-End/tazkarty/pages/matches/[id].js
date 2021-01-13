@@ -53,10 +53,10 @@ export default function Match(props) {
     <h3>Seats</h3>
     {myData.seats.map(seat=>{
         if (seat.available == "y"){
-            return(<button type="button" class="btn btn-primary">{seat.row + seat.index}</button>)
+            return(<button type="button" className="btn btn-primary">{seat.row + seat.index}</button>)
         }
         else {
-            return(<button type="button" class="btn btn-danger disabled">{seat.row + seat.index}</button>)
+            return(<button type="button" className="btn btn-danger disabled">{seat.row + seat.index}</button>)
         }
     })}
             <button
