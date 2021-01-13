@@ -1,16 +1,15 @@
 import Image from "next/image";
-import {useEffect, useState} from "react"
+import { useEffect, useState } from "react";
 export default function NavBar() {
   var user = false;
-  const [signedIn, setSignedIn] = useState(false)
-  useEffect(()=> {
+  const [signedIn, setSignedIn] = useState(false);
+  useEffect(() => {
     if (typeof window !== "undefined") {
-      if (localStorage.getItem("_id") !== null) 
-      {
+      if (localStorage.getItem("_id") !== null) {
         setSignedIn(true);
       }
     }
-  }, [])
+  }, []);
 
   var signOut = () => {
     if (typeof window !== "undefined") {
@@ -44,46 +43,54 @@ export default function NavBar() {
                 Tazkarty <span className="sr-only">(current)</span>
               </a>
             </li>
+            <li className="nav-item active h5">
+              <a className="nav-link" href="/MatchPage">
+                Matches <span className="sr-only">(current)</span>
+              </a>
+            </li>
+            <li className="nav-item active h5">
+              {signedIn ? (
+                <a href="/Profile">
+                  <button
+                    type="button"
+                    className="btn btn-primary m-2 d-flex align-self-end my-auto"
+                  >
+                    Profile
+                  </button>
+                </a>
+              ) : (
+                <a href="/SignUp">
+                  <button
+                    type="button"
+                    className="btn btn-primary m-2 d-flex align-self-end my-auto"
+                  >
+                    Sign Up
+                  </button>
+                </a>
+              )}
+            </li>
+            {signedIn ? (
+              <li>
+                <button
+                  type="button"
+                  className="btn btn-danger m-2 d-flex align-self-end my-auto"
+                  onClick={() => signOut()}
+                >
+                  Sign Out
+                </button>
+              </li>
+            ) : (
+              <a href="/SignIn">
+                <button
+                  type="button"
+                  className="btn btn-primary m-2 d-flex align-self-end my-auto"
+                >
+                  Sign In
+                </button>
+              </a>
+            )}
           </ul>
         </div>
-        {signedIn ? (
-          <>
-            <a href="/Profile">
-              <button
-                type="button"
-                className="btn btn-primary m-2 d-flex align-self-end my-auto"
-              >
-                Profile
-              </button>
-            </a>
-              <button
-                type="button"
-                className="btn btn-danger m-2 d-flex align-self-end my-auto"
-                onClick={() => signOut()}
-              >
-                Sign Out
-              </button>
-          </>
-        ) : (
-          <>
-            <a href="/SignUp">
-              <button
-                type="button"
-                className="btn btn-primary m-2 d-flex align-self-end my-auto"
-              >
-                Sign Up
-              </button>
-            </a>
-            <a href="/SignIn">
-              <button
-                type="button"
-                className="btn btn-primary m-2 d-flex align-self-end my-auto"
-              >
-                Sign In
-              </button>
-            </a>
-          </>
-        )}
       </nav>
     </header>
   );
