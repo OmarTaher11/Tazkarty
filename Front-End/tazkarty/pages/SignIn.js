@@ -29,7 +29,7 @@ export default function SignIn(props) {
       return;
     }
     // alert("Validation Complete");
-    router.push('/', undefined, { shallow: true });
+    
 
     // requestSignIn();
   };
@@ -52,7 +52,7 @@ export default function SignIn(props) {
           //   localStorage.setItem("myCat", "Tom");
           // }
           2. Rout to the homepage
-
+            router.push('/', undefined, { shallow: true });
           */
         }
       });
@@ -60,7 +60,6 @@ export default function SignIn(props) {
 
   return (
     <>
-      <NavBar></NavBar>
       <div className="container m-auto w-25 py-5">
         <Image
           className="img-fluid"

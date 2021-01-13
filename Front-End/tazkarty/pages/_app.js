@@ -1,4 +1,5 @@
 import "../styles/globals.css";
+import NavBar from "../components/NavBar";
 
 function MyApp({ Component, pageProps }) {
   return (
@@ -26,6 +27,7 @@ function MyApp({ Component, pageProps }) {
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossOrigin="anonymous"
       ></script>
+      <NavBar></NavBar>
       <Component {...pageProps} />
     </>
   );

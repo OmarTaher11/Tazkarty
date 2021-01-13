@@ -1,6 +1,28 @@
 import Image from "next/image";
+import {useEffect, useState} from "react"
 export default function NavBar() {
-    return (
+  var user = false;
+  const [signedIn, setSignedIn] = useState(false)
+  useEffect(()=> {
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("user") !== null) 
+      {
+        setSignedIn(true);
+      }
+    }
+  }, [])
+
+  var signOut = () => {
+    if (typeof window !== "undefined") {
+      if (localStorage.getItem("user") !== null) {
+        localStorage.removeItem("user");
+        setSignedIn(false);
+      }
+    }
+  };
+  console.log("user is ")
+  console.log(user)
+  return (
     <header>
       <nav className="navbar navbar-expand-lg navbar-dark bg-dark d-flex ">
         <a className="navbar-brand" href="/">
@@ -26,22 +48,44 @@ export default function NavBar() {
             </li>
           </ul>
         </div>
-        <a href="/SignUp">
-        <button
-          type="button"
-          className="btn btn-primary m-2 d-flex align-self-end my-auto" 
-        >
-          Sign Up
-        </button>
-        </a>
-        <a href="/SignIn">
-        <button
-          type="button"
-          className="btn btn-primary m-2 d-flex align-self-end my-auto"
-        >
-          Sign In
-        </button>
-        </a>
+        {signedIn ? (
+          <>
+            <a href="/Profile">
+              <button
+                type="button"
+                className="btn btn-primary m-2 d-flex align-self-end my-auto"
+              >
+                Profile
+              </button>
+            </a>
+              <button
+                type="button"
+                className="btn btn-danger m-2 d-flex align-self-end my-auto"
+                onClick={() => signOut()}
+              >
+                Sign Out
+              </button>
+          </>
+        ) : (
+          <>
+            <a href="/SignUp">
+              <button
+                type="button"
+                className="btn btn-primary m-2 d-flex align-self-end my-auto"
+              >
+                Sign Up
+              </button>
+            </a>
+            <a href="/SignIn">
+              <button
+                type="button"
+                className="btn btn-primary m-2 d-flex align-self-end my-auto"
+              >
+                Sign In
+              </button>
+            </a>
+          </>
+        )}
       </nav>
     </header>
   );

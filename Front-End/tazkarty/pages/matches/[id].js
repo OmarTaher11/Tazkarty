@@ -5,7 +5,6 @@ export default function Match(props) {
     console.log(props)
     return (
     <> 
-    <NavBar></NavBar>
     <Image
           className="img-fluid"
           src="/StadiumHD.jpg"

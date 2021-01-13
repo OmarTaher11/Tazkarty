@@ -7,7 +7,6 @@ export default function MatchPage({data}) {
     console.log(myData)
     return (
     <> 
-    <NavBar></NavBar>
     <Image
           className="img-fluid"
           src="/StadiumHD.jpg"

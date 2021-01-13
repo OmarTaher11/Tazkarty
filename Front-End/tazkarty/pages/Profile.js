@@ -28,10 +28,17 @@ export default function Profile() {
 
       <div className="row">
         <div className="col-4">
-          {" "}
+
           <div className="container w-50 p-3">
             <h4 className = "font-weight-bold">John Wick</h4>
           </div>
+
+          <button className="w-100 btn btn-lg btn-primary my-2" type="button">
+          Request Manager Privileges
+        </button>
+        <button className="w-100 btn btn-lg btn-primary my-2" type="button">
+          Request Site Adminstrator Privileges
+        </button>
         </div>
 
         <div className="col-8"><form>

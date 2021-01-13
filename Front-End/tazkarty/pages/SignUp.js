@@ -107,7 +107,6 @@ export default function SignUp(props) {
 
   return (
     <>
-      <NavBar></NavBar>
       <div className="container m-auto w-25 py-5">
         <Image
           className="img-fluid"
