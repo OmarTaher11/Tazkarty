@@ -6,6 +6,11 @@ const ticketSchema = mongoose.Schema( {
     name:{
         type:String
     },
+    seat:{
+        type:Array,
+        required:true
+    }
+    ,
     match:{
         type: mongoose.Schema.Types.ObjectId,
         ref:'Match',

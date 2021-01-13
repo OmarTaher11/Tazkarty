@@ -8,6 +8,7 @@ const auth = require('../middleware/auth')
 router.post('/user/fan/signup', async (req, res) => {
     try {
 
+        console.log(req.body)
         err = validateFanUser_Signup(req.body)
         if (err) {
             console.log("err")
@@ -41,6 +42,7 @@ router.post('/user/fan/signup', async (req, res) => {
                 City: req.body.City,
                 Address: req.body.Address,
                 Email: req.body.Email,
+                Gender: req.body.Gender,
                 Role: 'fan'
             })
         console.log('3amlt user')
@@ -55,7 +57,7 @@ router.post('/user/fan/signup', async (req, res) => {
     catch (e) {
         console.log('catch')
         console.log(e.message)
-        return res.status(400).send(e.message)
+        return res.status(400).send({ Error: e.message })
     }
 })
 //------------------------------ Signin
@@ -78,35 +80,89 @@ router.post('/user/fan/signin', async (req, res) => {
             token
         })
     } catch (e) {
-        res.status(400).send(e.message)
+        res.status(400).send({ Error: e.message })
     }
 })
 //------------------------------Edit User Data
-router.post('/user/fan/editinfo', auth,async (req, res) =>{
+router.post('/user/fan/editinfo', auth, async (req, res) => {
     try {
         err = await validateFanUser_editInfo(req.body)
-        if (err)
-        {
+        if (err) {
             console.log("err")
             console.log(err)
             throw Error(err)
         }
         console.log('wtf I did it')
         const user = await User.findByCredentials(req.body.Email, req.body.Password)
-        if( user.email !== req.user.email ){
+        if (user.email !== req.user.email) {
             return res.status(400).send('not available operation')
-        } 
-        req.user.Password = req.body.newPassword==null?req.user.Password:req.body.newPassword
-        req.user.First_name = req.body.First_name==null?req.user.First_name:req.body.First_name
-        req.user.Last_name = req.body.Last_name==null?req.user.Last_name:req.body.Last_name
-        req.user.Birth_date = req.body.Birth_date==null?req.user.Birth_date:req.body.Birth_date
-        req.user.City = req.body.City==null?req.user.City:req.body.City
-        req.user.Address = req.body.Address==null?req.user.Address:req.body.Address
+        }
+        req.user.Password = req.body.newPassword == null ? req.user.Password : req.body.newPassword
+        req.user.First_name = req.body.First_name == null ? req.user.First_name : req.body.First_name
+        req.user.Last_name = req.body.Last_name == null ? req.user.Last_name : req.body.Last_name
+        req.user.Birth_date = req.body.Birth_date == null ? req.user.Birth_date : req.body.Birth_date
+        req.user.City = req.body.City == null ? req.user.City : req.body.City
+        req.user.Address = req.body.Address == null ? req.user.Address : req.body.Address
+        req.user.Gender = req.body.Gender == null ? req.user.Gender : req.body.Gender
+
         await req.user.save()
         res.send(req.user.toJSON())
     } catch (e) {
-        res.status(400).send(e.message)
+        res.status(400).send({ Error: e.message })
     }
+})
+//-----------------------------get user--------
+router.get("/user/fan/me", auth, async (req, res) => {
+    console.log("========================USER=============================")
+    console.log(req.user)
+    await req.user.populate('Tickets.Ticket').execPopulate()
+    console.log("======================Tickets===========================")
+    console.log(req.user.Tickets)
+    console.log("==============IS THIS EVEN HIS FINAL FORM====================")
+    Tickets = await Promise.all(req.user.Tickets.map(async (ticket) => {
+        //console.log(ticket)
+        await ticket.Ticket.populate('match').execPopulate()
+        await ticket.Ticket.match.populate('stadium').execPopulate()
+        //console.log(ticket)
+        return ticket.Ticket
+    }))
+    console.log(Tickets)
+    req.user = req.user.toJSON()
+    req.user.Tickets = Tickets
+    console.log(req.user.Tickets)
+    return res.status(200).send(req.user)
+
+})
+//-----------------------------get user by id--------
+router.get("/user/fan/getByID", async (req, res) => {
+    try {
+        user = await User.findById({ _id: req.query._id })
+        if (!user) {
+            res.status(400).send({ Error: "No such user" })
+        }
+        console.log("========================USER=============================")
+        console.log(user)
+        await user.populate('Tickets.Ticket').execPopulate()
+        console.log("======================Tickets===========================")
+        console.log(user.Tickets)
+        console.log("==============IS THIS EVEN HIS FINAL FORM====================")
+        Tickets = await Promise.all(user.Tickets.map(async (ticket) => {
+            //console.log(ticket)
+            await ticket.Ticket.populate('match').execPopulate()
+            await ticket.Ticket.match.populate('stadium').execPopulate()
+            //console.log(ticket)
+            return ticket.Ticket
+        }))
+        console.log(Tickets)
+        user = user.toJSON()
+        user.Tickets = Tickets
+        console.log(user.Tickets)
+        return res.status(200).send(user)
+    }
+    catch (e) {
+        res.status(400).send({ Error: e.message })
+    }
+
 })
 //---------------------------------------------
 // Validation/////////////////
@@ -119,7 +175,8 @@ validateFanUser_Signup = (user) => {
             Last_name: Joi.string().required(),
             Birth_date: Joi.string().required(),
             City: Joi.string().required(),
-            Address: Joi.string(),
+            Gender: Joi.string().required(),
+            Address: Joi.string().allow(''),
             Email: Joi.string().required().email(),
         });
     return schema.validate(user).error;
@@ -135,8 +192,7 @@ validateFanUser_Signin = (user) => {
 validateFanUser_editInfo = (user) => {
     const schema = Joi.object(
         {
-            _id: Joi.string(),
-            Username: Joi.string(),
+
             Password: Joi.string().required().min(7),
             newPassword: Joi.string().min(7),
             First_name: Joi.string(),

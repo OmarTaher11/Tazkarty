@@ -1,17 +1,21 @@
 const express = require('express')
+var cors = require('cors')
+const app = express()
+app.use(express.json())
+app.use(cors())
+
 require('../db/mongoose')
 const User = require('../models/user')
 const Match = require('../models/match')
 const Ticket = require('../models/ticket')
 const Stadium = require('../models/stadium')
-const app = express()
-app.use(express.json())
 const { ObjectID } = require('mongodb')
 const stadium = require('../models/stadium')
 //router.use(bodyParser.urlencoded({ extended: false }));
 //router.use(bodyParser.json());
 const userRouter = require('../routes/user')
-
+const ticketRouter = require('../routes/ticket')
+const matchRouter = require('../routes/match')
 // app.get('/', async (req,res) => {
 //     var stadium_1 = new Stadium ({
 //         Stadium_name: "El Tetsh",
@@ -83,8 +87,12 @@ const userRouter = require('../routes/user')
 //     res.send(e)
 //     }
 // })
-
+app.get('/', async (req,res) => {
+       res.send("Kamel Says : Teez 3omar 7amra")       
+    })
 app.use(userRouter)
+app.use(ticketRouter)
+app.use(matchRouter)
 app.listen(3000,()=>{
     console.log("server is up")
 })
