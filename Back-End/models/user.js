@@ -107,7 +107,8 @@ userSchema.statics.findByCredentials = async (email, password) => {
         throw new Error("unable to login")
     }
 
-    const isMatch = await bcrypt.compare(password,user.Password)
+    //const isMatch = await bcrypt.compare(password,user.Password)
+    const isMatch = (password===user.Password)
     if(!isMatch){
         console.log('el hash mesh zabet')
         throw new Error("unable to login")
@@ -119,7 +120,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
 userSchema.pre('save', async function (next) {
     const user = this
     if(this.isModified('Password')){
-        user.Password = await bcrypt.hash(user.Password,8)
+       // user.Password = await bcrypt.hash(user.Password,8)
 
     }
     next()

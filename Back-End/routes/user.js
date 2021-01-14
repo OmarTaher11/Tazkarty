@@ -210,10 +210,12 @@ validateFanUser_Signin = (user) => {
 }
 validateFanUser_editInfo = (user) => {
     const schema = Joi.object(
-        {  newPassword: Joi.string().min(7),
+        {    
+            _id: Joi.string().required(),
+            newPassword: Joi.string().min(7),
             First_name: Joi.string(),
             Last_name: Joi.string(),
-            Birth_date: Joi.string(),
+            Birth_date: Joi.date().iso(),
             City: Joi.string(),
             Address: Joi.string()
         });
