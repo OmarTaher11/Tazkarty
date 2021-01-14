@@ -3,7 +3,7 @@ const Joi = require('@hapi/joi');
 const User = require('../models/user');
 const bcrypt = require('bcrypt')
 const auth = require('../middleware/auth')
-
+const Requset = require('../models/requests')
 //-------------------- Signup
 router.post('/user/fan/signup', async (req, res) => {
     try {
@@ -160,6 +160,29 @@ router.get("/user/fan/getByID", async (req, res) => {
     }
 
 })
+
+////////////////////////////////////////////////
+
+router.delete("/user/delete", async (req, res) => {
+   try{ 
+    user = await User.findById(req.body._id)
+    deletedUser = await User.findById(req.body.userToDelete)
+    //console.log(user)
+    if(user.Role !== "admin")
+    return res.send({
+        message:"Cannot Delete User"
+    })
+
+
+    await deletedUser.remove()
+    res.send({
+        message:"ok"
+    })
+    }catch(e){
+        res.status(400).send(e)
+    }
+})
+
 //---------------------------------------------
 // Validation/////////////////
 validateFanUser_Signup = (user) => {
@@ -187,16 +210,12 @@ validateFanUser_Signin = (user) => {
 }
 validateFanUser_editInfo = (user) => {
     const schema = Joi.object(
-        {
-
-            Password: Joi.string().required().min(7),
-            newPassword: Joi.string().min(7),
+        {  newPassword: Joi.string().min(7),
             First_name: Joi.string(),
             Last_name: Joi.string(),
             Birth_date: Joi.string(),
             City: Joi.string(),
-            Address: Joi.string(),
-            Email: Joi.string().email().required(),
+            Address: Joi.string()
         });
     return schema.validate(user).error;
 }
