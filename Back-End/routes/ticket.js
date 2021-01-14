@@ -3,6 +3,7 @@ const User = require('../models/user')
 const Ticket = require('../models/ticket');
 const Match = require('../models/match');
 const { ObjectID } = require('mongodb');
+const { now } = require('mongoose');
 
 router.post('/ticket/book',async (req, res) =>{
     try{
@@ -55,12 +56,21 @@ router.post('/ticket/cancel',async (req, res) =>{
             //console.log(ticket)
             return  ticket.Ticket._id.toString()
         }))
-        console.log(ids)
         //console.log(ids.indexOf())
         if(ids.indexOf(T1._id.toString())==-1)
         return res.send({
             message:"no such Ticket"
         })
+        time = T1.match.Date
+        nowTime = new Date()
+        var Difference_In_Time = time.getTime() - nowTime.getTime(); 
+  
+        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24); 
+        if(Difference_In_Days < 3)
+        return res.send({
+            message:"Cannot cancel ticket, the match is beginning withn 3 days" 
+        })
+
         await user.Tickets.splice(ids.indexOf(T1._id.toString()), 1);
         await user.save()
         await T1.remove()
