@@ -1,8 +1,11 @@
 import "../styles/globals.css";
+import NavBar from "../components/NavBar";
 
 function MyApp({ Component, pageProps }) {
   return (
     <>
+    <link rel="preconnect" href="https://fonts.gstatic.com"></link>
+    <link href="https://fonts.googleapis.com/css2?family=Monda&family=Ubuntu&display=swap" rel="stylesheet"></link>
       <link
         rel="stylesheet"
         href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -24,6 +27,7 @@ function MyApp({ Component, pageProps }) {
         integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
         crossOrigin="anonymous"
       ></script>
+      <NavBar></NavBar>
       <Component {...pageProps} />
     </>
   );
