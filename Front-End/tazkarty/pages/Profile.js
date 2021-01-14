@@ -116,13 +116,13 @@ export default function Profile() {
           </div>
           {/* {tickets.map((ticket) => {
             <TicketCard _id = {} Home_Team = {} Away_Team = {} Date = {} Stadium_name = {} Seat = {}></TicketCard>
-          })} */}
+          })} 
           {/* <TicketCard ticket = {ticket}></TicketCard>
-            <TicketCard></TicketCard> */}
-          <button className="w-100 btn btn-lg btn-primary my-2" type="button">
+            <TicketCard></TicketCard> */} 
+          <button className="w-100 btn btn-lg btn-primary my-2" type="button" onClick = {()=> {managerRequest()}}>
             Request Manager Privileges
           </button>
-          <button className="w-100 btn btn-lg btn-primary my-2" type="button">
+          <button className="w-100 btn btn-lg btn-primary my-2" type="button" onClick = {()=> {adminRequest()}}>
             Request Site Adminstrator Privileges
           </button>
         </div>

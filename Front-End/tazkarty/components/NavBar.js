@@ -2,7 +2,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 export default function NavBar() {
-  var user;
+  var user, userId;
   if (typeof window !== "undefined") {
     if (localStorage.getItem("Role") !== undefined) {
       user = localStorage.getItem("Role");
@@ -41,42 +41,45 @@ export default function NavBar() {
           aria-controls="navbarNavDropdown"
           aria-expanded="false"
           aria-label="Toggle navigation"
-        >
-          <span className="navbar-toggler-icon"></span>
-        </button>
+        ></button>
         <div className="collapse navbar-collapse" id="navbarNavDropdown">
           <ul className="navbar-nav">
             <li className="nav-item active h5">
               <a className="nav-link" href="/">
-                Tazkarty <span className="sr-only">(current)</span>
+                Tazkarty
               </a>
             </li>
             <li className="nav-item active h5">
               <a className="nav-link" href="/MatchPage">
-                Matches <span className="sr-only">(current)</span>
+                Matches
               </a>
             </li>
             {user === "manager" ? (
               <li className="nav-item active h5">
                 <a className="nav-link" href="/Manager">
-                  Manager <span className="sr-only">(current)</span>
+                  Manager
                 </a>
               </li>
             ) : (
               <></>
             )}
 
-            <li className="nav-item active h5">
-                <a className="nav-link" href="/Admin">
-                  <button
-                    disabled = {!user === "admin"}
-                    type="button"
-                    className="btn btn-primary m-2 d-flex align-self-end my-auto"
-                  >
-                    Admin
-                  </button>
-                </a>
-            </li>
+            {user === "admin" ? (
+              <li className="nav-item active h5">
+                <button
+                  disabled={!user === "admin"}
+                  type="button"
+                  onClick={() => {
+                    router.push("/Admin", undefined, { shallow: true });
+                  }}
+                  className="btn btn-primary m-2 d-flex align-self-end my-auto"
+                >
+                  Admin
+                </button>
+              </li>
+            ) : (
+              <> </>
+            )}
             <li className="nav-item active h5">
               {signedIn ? (
                 <a href="/Profile">

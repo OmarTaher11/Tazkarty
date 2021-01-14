@@ -29,7 +29,9 @@ export default function Admin(props) {
         fetch(reqUrl, requestOptions)
           .then((res) => res.json())
           .then((res) => {
-            setRequests(res.requests);
+            console.log(res)
+
+            setRequests(res.requests)
           });
       }
     }
