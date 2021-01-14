@@ -161,6 +161,7 @@ router.get("/user/fan/getByID", async (req, res) => {
 
 })
 
+
 ////////////////////////////////////////////////
 
 router.delete("/user/delete", async (req, res) => {
@@ -183,6 +184,28 @@ router.delete("/user/delete", async (req, res) => {
     }
 })
 
+router.get("/user/all", async (req, res) => {
+    console.log("========================USER=============================")
+    users = await User.find()
+    console.log(users)
+    users = await Promise.all(users.map(async (user) => {
+        console.log(user.Username)
+        await user.populate('Tickets.Ticket').execPopulate()
+        Tickets = await Promise.all(user.Tickets.map(async (ticket) => {
+            //console.log(ticket)
+            await ticket.Ticket.populate('match').execPopulate()
+            await ticket.Ticket.match.populate('stadium').execPopulate()
+            //console.log(ticket)
+            return ticket.Ticket
+        }))
+        user = user.toJSON()
+        user.Tickets = Tickets
+        return user
+    }))
+
+    return res.status(200).send(users)
+
+})
 //---------------------------------------------
 // Validation/////////////////
 validateFanUser_Signup = (user) => {
