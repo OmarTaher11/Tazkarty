@@ -1,13 +1,8 @@
 const router = require('express').Router();
-const Joi = require('@hapi/joi');
 const Match = require('../models/match');
 const Stadium = require('../models/stadium')
-const bcrypt = require('bcrypt')
-const auth = require('../middleware/auth');
 const { ObjectID, Int32 } = require('mongodb');
 const User = require('../models/user');
-const stadium = require('../models/stadium');
-const { number } = require('@hapi/joi');
 
 router.get("/match/getByID", async (req, res) => {
     console.log(req.query)
@@ -79,7 +74,7 @@ router.post("/match/create", async (req, res) => {
         user = await User.findById(req.body._id)
         console.log(user)
         if(user.Role !== 'manager')
-        res.send({
+        return res.send({
             message:"Can't Create  a match"
         })
         const stadium = await Stadium.findById(req.body.stadium_id)

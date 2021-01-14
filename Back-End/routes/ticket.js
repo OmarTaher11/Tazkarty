@@ -1,9 +1,7 @@
 const router = require('express').Router();
-const Joi = require('@hapi/joi');
 const User = require('../models/user')
 const Ticket = require('../models/ticket');
 const Match = require('../models/match');
-const auth = require('../middleware/auth');
 const { ObjectID } = require('mongodb');
 
 router.post('/ticket/book',async (req, res) =>{

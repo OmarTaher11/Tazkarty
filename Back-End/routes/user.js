@@ -92,7 +92,7 @@ router.post('/user/fan/editinfo', async (req, res) => {
             console.log(err)
             throw Error(err)
         }
-        user = await User.findOne({ _id: req.body._id})
+        user = await User.findOne({ _id: req.body._id })
         user.Password = req.body.newPassword == null ? user.Password : req.body.newPassword
         user.First_name = req.body.First_name == null ? user.First_name : req.body.First_name
         user.Last_name = req.body.Last_name == null ? user.Last_name : req.body.Last_name
@@ -108,7 +108,7 @@ router.post('/user/fan/editinfo', async (req, res) => {
     }
 })
 //-----------------------------get user--------
-router.get("/user/fan/me",auth, async (req, res) => {
+router.get("/user/fan/me", auth, async (req, res) => {
     console.log("========================USER=============================")
     console.log(req.user)
     await req.user.populate('Tickets.Ticket').execPopulate()
@@ -127,6 +127,29 @@ router.get("/user/fan/me",auth, async (req, res) => {
     req.user.Tickets = Tickets
     console.log(req.user.Tickets)
     return res.status(200).send(req.user)
+
+})
+//-----------------------------get user--------
+router.get("/user/all", async (req, res) => {
+    console.log("========================USER=============================")
+    users = await User.find()
+    console.log(users)
+    users = await Promise.all(users.map(async (user) => {
+        console.log(user.Username)
+        await user.populate('Tickets.Ticket').execPopulate()
+        Tickets = await Promise.all(user.Tickets.map(async (ticket) => {
+            //console.log(ticket)
+            await ticket.Ticket.populate('match').execPopulate()
+            await ticket.Ticket.match.populate('stadium').execPopulate()
+            //console.log(ticket)
+            return ticket.Ticket
+        }))
+        user = user.toJSON()
+        user.Tickets = Tickets
+        return user
+    }))
+
+    return res.status(200).send(users)
 
 })
 //-----------------------------get user by id--------
@@ -164,21 +187,21 @@ router.get("/user/fan/getByID", async (req, res) => {
 ////////////////////////////////////////////////
 
 router.delete("/user/delete", async (req, res) => {
-   try{ 
-    user = await User.findById(req.body._id)
-    deletedUser = await User.findById(req.body.userToDelete)
-    //console.log(user)
-    if(user.Role !== "admin")
-    return res.send({
-        message:"Cannot Delete User"
-    })
+    try {
+        user = await User.findById(req.body._id)
+        deletedUser = await User.findById(req.body.userToDelete)
+        //console.log(user)
+        if (user.Role !== "admin")
+            return res.send({
+                message: "Cannot Delete User"
+            })
 
 
-    await deletedUser.remove()
-    res.send({
-        message:"ok"
-    })
-    }catch(e){
+        await deletedUser.remove()
+        res.send({
+            message: "ok"
+        })
+    } catch (e) {
         res.status(400).send(e)
     }
 })
@@ -210,8 +233,9 @@ validateFanUser_Signin = (user) => {
 }
 validateFanUser_editInfo = (user) => {
     const schema = Joi.object(
-        {    
+        {
             _id: Joi.string().required(),
+            Gender: Joi.string(),
             newPassword: Joi.string().min(7),
             First_name: Joi.string(),
             Last_name: Joi.string(),

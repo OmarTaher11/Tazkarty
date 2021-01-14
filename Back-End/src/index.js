@@ -11,13 +11,30 @@ const Ticket = require('../models/ticket')
 const Stadium = require('../models/stadium')
 const { ObjectID } = require('mongodb')
 const stadium = require('../models/stadium')
-//router.use(bodyParser.urlencoded({ extended: false }));
-//router.use(bodyParser.json());
 const userRouter = require('../routes/user')
 const ticketRouter = require('../routes/ticket')
 const matchRouter = require('../routes/match')
 const stadiumRouter = require('../routes/stadium')
 const requestRouter = require('../routes/request')
+
+app.use(userRouter)
+app.use(requestRouter)
+app.use(ticketRouter)
+app.use(matchRouter)
+app.use(stadiumRouter)
+app.listen(3000,()=>{
+    console.log("server is up")
+})
+
+
+
+
+
+
+
+
+
+
 // app.get('/', async (req,res) => {
 //     var stadium_1 = new Stadium ({
 //         Stadium_name: "El Tetsh",
@@ -89,26 +106,3 @@ const requestRouter = require('../routes/request')
 //     res.send(e)
 //     }
 // })
-app.get('/', async (req,res) => {
-       res.send("Kamel Says : Teez 3omar abdellatef 7amra")   
-       D1 = new Date()    
-       D2 = new Date
-       //D2.setDay(D2.getDay()+1)
-       console.log(D2)
-
-       /*
-        var Difference_In_Time = date2.getTime() - date1.getTime(); 
-  
-        // To calculate the no. of days between two dates 
-        var Difference_In_Days = Difference_In_Time / (1000 * 3600 * 24); 
-
-       */
-    })
-app.use(userRouter)
-app.use(requestRouter)
-app.use(ticketRouter)
-app.use(matchRouter)
-app.use(stadiumRouter)
-app.listen(3000,()=>{
-    console.log("server is up")
-})
