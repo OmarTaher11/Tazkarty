@@ -4,7 +4,9 @@ import MatchCard from "../components/MatchCard"
 import {link} from "../link"
 export default function MatchPage({data}) {
     var matchInfo = { data };
-     console.log(matchInfo)
+    //  console.log(matchInfo);
+    //  var signedIn;
+
     var matchCards = matchInfo.data.map((match) => (
       <MatchCard data={match}></MatchCard>
     ));
@@ -15,6 +17,7 @@ export default function MatchPage({data}) {
       </div>
     </>
     )
+
 }
 
 export async function getServerSideProps(context) {

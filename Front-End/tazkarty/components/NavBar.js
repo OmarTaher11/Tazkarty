@@ -1,8 +1,10 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
+import { useRouter } from 'next/router'
 export default function NavBar() {
   var user = false;
   const [signedIn, setSignedIn] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     if (typeof window !== "undefined") {
       if (localStorage.getItem("_id") !== null) {
@@ -16,6 +18,8 @@ export default function NavBar() {
       if (localStorage.getItem("_id") !== null) {
         localStorage.clear();
         setSignedIn(false);
+        router.push("/", undefined, { shallow: true });
+
       }
     }
   };

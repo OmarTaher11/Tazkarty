@@ -43,6 +43,11 @@ export default function SignIn(props) {
     fetch(signInUrl, requestOptions)
       .then((response) => response.json())
       .then((response) => {
+        if (response.Error === "unable to login")
+        {
+          alert("Unable to login");
+          return;
+        }
         if (typeof window !== "undefined") {
           localStorage.setItem("_id", response.userId);
         }
