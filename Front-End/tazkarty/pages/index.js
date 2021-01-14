@@ -14,7 +14,7 @@ export default function Home({ data }) {
   const router = useRouter();
   var url = link;
   var reqUrl = link + "/user/fan/getByID?";
-  var matchCards = matchInfo.data.matches.map((match) => (
+  var matchCards = matchInfo.data.map((match) => (
     <MatchCard data={match}></MatchCard>
   ));
   useEffect(() => {
@@ -79,12 +79,21 @@ export default function Home({ data }) {
 }
 
 export async function getServerSideProps(context) {
-  const res = await fetch(
-    `https://run.mocky.io/v3/31372ede-0d28-46fa-b5ec-854f3aa56b12`
-  );
+  var url = "/match/getAll"
+  var reqUrl = link + url;
+  const requestOptions = {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  const res = await fetch(reqUrl, requestOptions)
   const data = await res.json();
-  //  console.log(data)
-  var ht = data.HomeTeam;
+  
+     console.log(data)
+  
+  
+
   return {
     props: { data }, // will be passed to the page component as props
   };

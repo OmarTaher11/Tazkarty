@@ -35,6 +35,7 @@ export default function SignIn(props) {
   var requestSignIn = () => {
     const requestOptions = {
       method: "POST",
+      mode: 'cors',
       headers: {
         "Content-Type": "application/json",
       },
@@ -43,6 +44,11 @@ export default function SignIn(props) {
     fetch(signInUrl, requestOptions)
       .then((response) => response.json())
       .then((response) => {
+        if (response.Error === "unable to login")
+        {
+          alert("Unable to login");
+          return;
+        }
         if (typeof window !== "undefined") {
           localStorage.setItem("_id", response.userId);
         }
