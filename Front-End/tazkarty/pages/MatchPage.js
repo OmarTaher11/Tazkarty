@@ -23,6 +23,7 @@ export default function MatchPage({data}) {
 export async function getServerSideProps(context) {
   var url = "/match/getAll"
   var reqUrl = link + url;
+  console.log(reqUrl)
   const requestOptions = {
     method: "GET",
     headers: {

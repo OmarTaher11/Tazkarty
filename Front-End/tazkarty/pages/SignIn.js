@@ -35,6 +35,7 @@ export default function SignIn(props) {
   var requestSignIn = () => {
     const requestOptions = {
       method: "POST",
+      mode: 'cors',
       headers: {
         "Content-Type": "application/json",
       },

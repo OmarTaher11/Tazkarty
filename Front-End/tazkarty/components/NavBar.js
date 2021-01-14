@@ -1,8 +1,13 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useRouter } from 'next/router'
+import { useRouter } from "next/router";
 export default function NavBar() {
-  var user = false;
+  var user;
+  if (typeof window !== "undefined") {
+    if (localStorage.getItem("Role") !== undefined) {
+      user = localStorage.getItem("Role");
+    }
+  }
   const [signedIn, setSignedIn] = useState(false);
   const router = useRouter();
   useEffect(() => {
@@ -19,7 +24,6 @@ export default function NavBar() {
         localStorage.clear();
         setSignedIn(false);
         router.push("/", undefined, { shallow: true });
-
       }
     }
   };
@@ -52,6 +56,27 @@ export default function NavBar() {
                 Matches <span className="sr-only">(current)</span>
               </a>
             </li>
+            {user === "manager" ? (
+              <li className="nav-item active h5">
+                <a className="nav-link" href="/Manager">
+                  Manager <span className="sr-only">(current)</span>
+                </a>
+              </li>
+            ) : (
+              <></>
+            )}
+
+            <li className="nav-item active h5">
+                <a className="nav-link" href="/Admin">
+                  <button
+                    disabled = {!user === "admin"}
+                    type="button"
+                    className="btn btn-primary m-2 d-flex align-self-end my-auto"
+                  >
+                    Admin
+                  </button>
+                </a>
+            </li>
             <li className="nav-item active h5">
               {signedIn ? (
                 <a href="/Profile">
@@ -73,6 +98,7 @@ export default function NavBar() {
                 </a>
               )}
             </li>
+
             {signedIn ? (
               <li>
                 <button
