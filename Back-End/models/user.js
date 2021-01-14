@@ -1,4 +1,6 @@
 const mongoose = require('mongoose')
+const Ticket = require('../models/ticket')
+const stadium = require('../models/stadium')
 const validator = require('validator')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
@@ -121,6 +123,22 @@ userSchema.pre('save', async function (next) {
 
     }
     next()
+})
+
+
+userSchema.pre('remove', async function (next) {
+    const user = this
+    ids =await Promise.all( user.Tickets.map( async (ticket) => {
+        //console.log(ticket)
+        return  ticket.Ticket._id.toString()
+    }))
+    
+    for (var i = 0; i < ids.length; i++) {
+        T = await Ticket.findById(ids[i])
+        await T.remove()
+    }
+    next()
+
 })
 const User = mongoose.model('User',userSchema)
 module.exports = User
